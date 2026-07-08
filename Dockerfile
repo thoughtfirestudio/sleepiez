@@ -12,11 +12,11 @@ RUN npm run build
 # ============================================================
 # Stage 2: Python backend + serve frontend dist
 # ============================================================
-FROM python:3.14-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install system deps for psycopg2
+# Install system deps (minimal — psycopg2-binary wheels on 3.12)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc libpq-dev && \
     rm -rf /var/lib/apt/lists/*

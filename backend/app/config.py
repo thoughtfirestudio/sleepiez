@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     sleeper_league_id: str = ""
     sleeper_poll_interval_min: int = 5
 
-    property
+    @property
     def allowed_email_list(self) -> list[str]:
         return [e.strip() for e in self.allowed_emails.split(",") if e.strip()]
 
