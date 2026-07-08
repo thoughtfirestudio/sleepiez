@@ -89,7 +89,6 @@ function AppLayout() {
         emoji={announcement?.emoji ?? "🤡"}
         onDismiss={dismissAnnouncement}
       />
-      <InstallPrompt />
     </div>
   );
 }
