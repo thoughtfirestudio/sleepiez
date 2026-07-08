@@ -18,7 +18,13 @@ interface ChallengeInfo {
 
 interface ChallengeDetail extends ChallengeInfo {
   questions: { q: string; options: string[] }[];
-  submission: { score: number; total: number } | null;
+  submission: {
+    score: number;
+    total: number;
+    answers?: number[];
+    correct_answers?: number[];
+    questions?: { q: string; options: string[]; correct: number; your_answer: number }[];
+  } | null;
 }
 
 interface StandingEntry {
@@ -70,8 +76,9 @@ export default function DraftPrep() {
   const [qu, setQu] = useState(0); // current question index
   const [answers, setAnswers] = useState<number[]>([]);
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState<{ score: number; total: number } | null>(null);
+  const [result, setResult] = useState<{ score: number; total: number; questions?: any[] } | null>(null);
   const [celebrating, setCelebrating] = useState(false);
+  const [showAnswers, setShowAnswers] = useState(false);
 
   const fetchAll = useCallback(async () => {
     const [c, cur, s] = await Promise.all([
@@ -107,7 +114,7 @@ export default function DraftPrep() {
   async function handleSubmit() {
     if (!current || answers.includes(-1)) return;
     try {
-      const res = await api.post<{ score: number; total: number }>(
+      const res = await api.post<{ score: number; total: number; questions: any[] }>(
         `/api/challenges/${current.id}/submit`, answers,
       );
       setResult(res);
@@ -136,6 +143,42 @@ export default function DraftPrep() {
   const accentColor = ACCENT_COLORS[theme.accent] || ACCENT_COLORS.gold;
   const qs = current?.questions || [];
   const answered = answers.filter((a) => a >= 0).length;
+
+  function renderAnswerReview() {
+    if (!showAnswers || !result?.questions) return null;
+    return result.questions.map((q: any, i: number) => {
+      const correct = q.correct;
+      const your = q.your_answer;
+      const gotItRight = your === correct;
+      return (
+        <div key={i} className="card p-4 mb-3">
+          <div className="flex items-start gap-2 mb-2">
+            <span className="text-lg">{gotItRight ? "✅" : "❌"}</span>
+            <p className="text-sm font-bold flex-1">{q.q}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            {q.options.map((opt: string, oi: number) => {
+              const isCorrect = oi === correct;
+              const isYour = oi === your;
+              return (
+                <div key={oi} className={`flex items-center gap-2 px-3 py-2 rounded-pill text-xs font-semibold ${
+                  isCorrect && isYour ? "bg-green-100 text-green-600" :
+                  isCorrect ? "bg-green-50 text-green-600" :
+                  isYour ? "bg-red-50 text-red-500" :
+                  "text-ink-600"
+                }`}>
+                  <span>{String.fromCharCode(65 + oi)}</span>
+                  <span className="flex-1">{opt}</span>
+                  {isCorrect && <span>✓</span>}
+                  {isYour && !isCorrect && <span>✗</span>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    });
+  }
 
   return (
     <div className="pt-3" style={{ paddingBottom: "calc(80px + env(safe-area-inset-bottom))" }}>
@@ -259,7 +302,8 @@ export default function DraftPrep() {
 
       {/* Result celebration */}
       {result && (
-        <div className={`relative overflow-hidden rounded-lg mb-5 transition-all ${celebrating ? 'scale-[1.02]' : ''}`}
+        <div className="result-section">
+          <div className="relative overflow-hidden rounded-lg mb-3 transition-all"
           style={{ background: `linear-gradient(135deg, ${accentColor}22, ${accentColor}44)` }}>
           {celebrating && (
             <div className="absolute inset-0 pointer-events-none text-2xl leading-none">
@@ -283,6 +327,18 @@ export default function DraftPrep() {
             </p>
             <p className="text-[10px] text-ink-400 mt-2">{getScoreMessage(result.score, result.total).emojis}</p>
           </div>
+        </div>
+
+        {/* Reveal answers button */}
+        <button
+          onClick={() => setShowAnswers(!showAnswers)}
+          className="w-full bg-surface text-ink-900 font-bold text-sm rounded-pill px-5 py-3 mb-4 border-2 border-line-200 cursor-pointer active:scale-[0.98]"
+        >
+          {showAnswers ? "Hide answers" : "Reveal answers"}
+        </button>
+
+        {/* Answer review */}
+        {renderAnswerReview()}
         </div>
       )}
 

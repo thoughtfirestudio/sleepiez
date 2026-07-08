@@ -52,7 +52,22 @@ def get_current_challenge(
             ChallengeSubmission.user_id == user.id,
         ).first()
         if sub:
-            has_submitted = {"score": sub.score, "total": len(challenge.questions or [])}
+            questions = challenge.questions or []
+            has_submitted = {
+                "score": sub.score,
+                "total": len(questions),
+                "answers": sub.answers,
+                "correct_answers": [q.get("correct", -1) for q in questions],
+                "questions": [
+                    {
+                        "q": q.get("q"),
+                        "options": q.get("options", []),
+                        "correct": q.get("correct", -1),
+                        "your_answer": sub.answers[i] if i < len(sub.answers or []) else -1,
+                    }
+                    for i, q in enumerate(questions)
+                ],
+            }
 
     if not challenge:
         challenge = db.query(Challenge).filter(
@@ -135,7 +150,25 @@ def submit_challenge(
     db.add(submission)
     db.commit()
 
-    return {"ok": True, "score": score, "total": len(questions)}
+    # Build answer key
+    correct_answers = [q.get("correct", -1) for q in questions]
+    questions_with_answers = [
+        {
+            "q": q.get("q"),
+            "options": q.get("options", []),
+            "correct": q.get("correct", -1),
+            "your_answer": answers[i] if i < len(answers) else -1,
+        }
+        for i, q in enumerate(questions)
+    ]
+
+    return {
+        "ok": True,
+        "score": score,
+        "total": len(questions),
+        "correct_answers": correct_answers,
+        "questions": questions_with_answers,
+    }
 
 
 @router.get("/standings")
