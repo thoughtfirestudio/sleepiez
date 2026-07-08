@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://sleepiez:sleepiez@localhost:5432/sleepiez"
     allowed_emails: str = ""
     session_secret: str = "change-me-in-production"
-    cors_origins: str = "http://localhost:8000,http://localhost:5173"
+    cors_origins: str = "https://sleepiez.thoughtfire.studio,http://localhost:5173"
 
     # Sleeper API
     sleeper_league_id: str = ""

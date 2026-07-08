@@ -45,7 +45,7 @@ app.include_router(waivers.router)
 app.include_router(chaos.router)
 
 # Serve frontend dist in production
-dist_dir = os.path.join(os.path.dirname(__file__), "..", "..", "dist")
+dist_dir = os.path.join(os.path.dirname(__file__), "..", "dist")
 if os.path.isdir(dist_dir):
     app.mount("/", StaticFiles(directory=dist_dir, html=True), name="frontend")
 
