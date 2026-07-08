@@ -14,7 +14,7 @@ interface ApiState<T> {
  */
 export function useApi<T>(
   path: string | null,
-  mock: T,
+  mock: T | null = null,
   options?: { immediate?: boolean }
 ): ApiState<T> {
   const [data, setData] = useState<T | null>(null);
