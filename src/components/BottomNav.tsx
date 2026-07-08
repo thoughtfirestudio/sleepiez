@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 
 const NAV_ITEMS = [
   { to: "/dashboard", label: "Home", icon: "🏠" },
+  { to: "/draft-prep", label: "Prep", icon: "📅" },
   { to: "/standings", label: "League", icon: "🧑‍🤝‍🧑" },
   { to: "/matchups", label: "Matchups", icon: "📈" },
-  { to: "/waivers", label: "Waivers", icon: "🔄" },
   { to: "/profile", label: "Profile", icon: "👤" },
 ] as const;
 

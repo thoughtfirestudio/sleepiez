@@ -193,3 +193,29 @@ class Announcement(Base):
     emoji = Column(String(10), nullable=False)
     acknowledged = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class Challenge(Base):
+    """Weekly pre-draft challenge with trivia questions."""
+    __tablename__ = "challenges"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    week_number = Column(Integer, nullable=False)
+    title = Column(String(200), nullable=False)
+    description = Column(Text, nullable=False)
+    questions = Column(JSONB, default=list)
+    opens_at = Column(DateTime(timezone=True), nullable=False)
+    closes_at = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class ChallengeSubmission(Base):
+    """A user's submission for a challenge."""
+    __tablename__ = "challenge_submissions"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    challenge_id = Column(UUID(as_uuid=True), ForeignKey("challenges.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    answers = Column(JSONB, default=list)
+    score = Column(Integer, default=0)
+    submitted_at = Column(DateTime(timezone=True), default=utcnow)

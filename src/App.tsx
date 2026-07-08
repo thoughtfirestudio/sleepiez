@@ -13,6 +13,7 @@ import Waivers from "./pages/Waivers";
 import Profile from "./pages/Profile";
 import ChaosConfig from "./pages/ChaosConfig";
 import DraftBoard from "./pages/DraftBoard";
+import DraftPrep from "./pages/DraftPrep";
 import InstallPrompt from "./components/InstallPrompt";
 import { api } from "./api";
 
@@ -76,6 +77,7 @@ function AppLayout() {
           <Route path="/matchups/:id" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
           <Route path="/waivers" element={<ProtectedRoute><Waivers /></ProtectedRoute>} />
           <Route path="/draft" element={<ProtectedRoute><DraftBoard /></ProtectedRoute>} />
+          <Route path="/draft-prep" element={<ProtectedRoute><DraftPrep /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/chaos-config" element={<ProtectedRoute><ChaosConfig /></ProtectedRoute>} />
         </Routes>
