@@ -144,3 +144,14 @@ def logout(response: Response, request: Request, db: Session = Depends(get_db)):
         samesite="lax",
     )
     return {"ok": True}
+
+
+@router.post("/dismiss-challenge-prompt")
+def dismiss_challenge_prompt(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Mark the challenge prompt as seen for this user."""
+    user.challenge_prompt_seen = True
+    db.commit()
+    return {"ok": True}

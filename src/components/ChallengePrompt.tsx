@@ -1,31 +1,32 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const SEEN_KEY = "sleepiez_challenge_prompt_seen";
+import { useAuth } from "../hooks/useAuth";
+import { api } from "../api";
 
 export default function ChallengePrompt() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Show once ever — uses localStorage so it persists across sessions
-    const seen = localStorage.getItem(SEEN_KEY);
-    const timer = setTimeout(() => {
-      if (!seen) {
-        setOpen(true);
-        localStorage.setItem(SEEN_KEY, "true");
-      }
-    }, 800);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!user) return;
+    // Only show if user hasn't dismissed it on any device
+    if (user.challenge_prompt_seen) return;
 
-  function handleGo() {
+    const timer = setTimeout(() => setOpen(true), 800);
+    return () => clearTimeout(timer);
+  }, [user]);
+
+  async function handleGo() {
     setOpen(false);
+    // Mark as seen on the server
+    await api.post("/api/auth/dismiss-challenge-prompt").catch(() => {});
     navigate("/draft-prep");
   }
 
-  function handleDismiss() {
+  async function handleDismiss() {
     setOpen(false);
+    await api.post("/api/auth/dismiss-challenge-prompt").catch(() => {});
   }
 
   if (!open) return null;

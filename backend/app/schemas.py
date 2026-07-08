@@ -17,6 +17,7 @@ class UserOut(BaseModel):
     email: str
     display_name: str | None = None
     is_admin: bool = False
+    challenge_prompt_seen: bool = False
     model_config = {"from_attributes": True}
 
 

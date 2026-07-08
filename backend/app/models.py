@@ -19,6 +19,7 @@ class User(Base):
     display_name = Column(String(100), nullable=True)
     is_admin = Column(Boolean, default=False)
     session_token = Column(String(64), nullable=True, index=True)
+    challenge_prompt_seen = Column(Boolean, default=False)
     created_at = Column(DateTime(timezone=True), default=utcnow)
     last_login_at = Column(DateTime(timezone=True), nullable=True)
 

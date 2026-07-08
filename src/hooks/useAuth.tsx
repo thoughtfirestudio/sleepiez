@@ -7,6 +7,7 @@ interface User {
   email: string;
   display_name: string | null;
   is_admin: boolean;
+  challenge_prompt_seen?: boolean;
 }
 
 interface AuthContextType {
