@@ -15,6 +15,7 @@ import ChaosConfig from "./pages/ChaosConfig";
 import DraftBoard from "./pages/DraftBoard";
 import DraftPrep from "./pages/DraftPrep";
 import InstallPrompt from "./components/InstallPrompt";
+import ChallengePrompt from "./components/ChallengePrompt";
 import { useTracking } from "./hooks/useTracking";
 import { api } from "./api";
 
@@ -96,6 +97,7 @@ function AppLayout() {
         emoji={announcement?.emoji ?? "🤡"}
         onDismiss={dismissAnnouncement}
       />
+      <ChallengePrompt />
     </div>
   );
 }

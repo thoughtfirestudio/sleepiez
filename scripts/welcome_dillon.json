@@ -1,0 +1,15 @@
+{
+  "FromEmailAddress": "david@thoughtfire.studio",
+  "Destination": { "ToAddresses": ["dshambaugh1@gmail.com"] },
+  "Content": {
+    "Simple": {
+      "Subject": { "Data": "You have been summoned to Sleepy Joezzz", "Charset": "UTF-8" },
+      "Body": {
+        "Text": {
+          "Data": "Hey Dillon,\n\nYou're in the Sleepy Joezzz fantasy football league.\n\nYour team: Dillons Demons\nDraft: Wednesday, August 26\n\nLog in at https://sleepiez.thoughtfire.studio — pick your name, enter dshambaugh1@gmail.com, check your email for the code, and you're in.\n\nThe first challenge (2010s Pop & Indie trivia) is live NOW. Six weeks of trivia determine the draft order. The better you do, the better your pick.\n\nAlso David says hi and that you owe him $5 from 2019. Just putting that out there.\n\n— The app (not David, the app sent this)\n\nP.S. Yes this is a real email from a real app. We built this for the homies.",
+          "Charset": "UTF-8"
+        }
+      }
+    }
+  }
+}
