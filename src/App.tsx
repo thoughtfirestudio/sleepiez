@@ -19,7 +19,7 @@ import { api } from "./api";
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return null;
-  if (!user) return <Navigate to="/" replace />;
+  if (!user) return <Navigate to="/welcome" replace />;
   return <>{children}</>;
 }
 
@@ -98,12 +98,12 @@ export default function App() {
     <AuthProvider>
       <InstallPrompt />
       <Routes>
-        {/* Public landing pages */}
-        <Route path="/" element={<Welcome />} />
+        {/* Landing page (public) — moved from / to /welcome */}
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/pick-homie" element={<PickHomie />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Protected app */}
+        {/* Protected app — / is the dashboard when logged in */}
         <Route path="/*" element={<AppLayout />} />
       </Routes>
     </AuthProvider>

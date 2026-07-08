@@ -1,7 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Welcome() {
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
+
+  // Already logged-in users get redirected to dashboard
+  if (loading) return null;
+  if (user) {
+    navigate("/dashboard", { replace: true });
+    return null;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center"

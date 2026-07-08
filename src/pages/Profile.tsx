@@ -16,7 +16,7 @@ export default function Profile() {
 
   async function handleSignOut() {
     await logout();
-    navigate("/");
+    navigate("/welcome");
   }
 
   return (

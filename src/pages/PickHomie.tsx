@@ -34,7 +34,7 @@ export default function PickHomie() {
          style={{ paddingTop: "max(32px, env(safe-area-inset-top))" }}>
       <button
         className="text-sm font-bold text-ink-600 self-start mb-4 cursor-pointer"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/welcome")}
       >
         ← Back
       </button>
