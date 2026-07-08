@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sleepy Joezzz — Draft Hype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sz-ink-900:#1A1A18; --sz-ink-700:#3D3B35; --sz-ink-600:#57544C; --sz-ink-400:#9C988E;
+    --sz-cream-50:#F6F3EC; --sz-surface:#FFFFFF;
+    --sz-gold-500:#F4C43D; --sz-gold-600:#E3A916; --sz-gold-100:#FBEBC0;
+    --sz-green-500:#33C77E; --sz-green-100:#DBF3E7;
+    --sz-red-500:#E1503F;
+    --sz-line-200:#EAE5D8; --sz-line-300:#DEDACB;
+    --sz-font-display:'Sora',sans-serif;
+    --sz-font-body:'Inter',sans-serif;
+    --sz-radius-sm:10px; --sz-radius-md:16px; --sz-radius-lg:24px; --sz-radius-pill:999px;
+    --sz-shadow-card:0 10px 28px rgba(26,26,24,.07);
+    --sz-shadow-nav:0 12px 24px rgba(26,26,24,.28);
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family: var(--sz-font-body); background: var(--sz-cream-50); color: var(--sz-ink-900); }
+
+  /* BANNER — full-width hero */
+  .banner {
+    background: var(--sz-ink-900);
+    padding: 48px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 50% 80%, rgba(244,196,61,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .banner .emoji { font-size: 64px; margin-bottom: 8px; }
+  .banner h1 {
+    font-family: var(--sz-font-display); font-size: 42px; font-weight: 800;
+    color: var(--sz-gold-500); letter-spacing: -0.02em; line-height: 1.1;
+    position: relative;
+  }
+  .banner .sub {
+    font-family: var(--sz-font-display); font-size: 20px; font-weight: 600;
+    color: var(--sz-ink-400); margin-top: 8px; letter-spacing: 0.02em;
+    position: relative;
+  }
+  .banner .tagline {
+    font-size: 14px; color: var(--sz-ink-600); margin-top: 16px; max-width: 360px; margin-left: auto; margin-right: auto;
+    position: relative;
+  }
+  .banner .gold-line {
+    width: 60px; height: 3px; background: var(--sz-gold-500); border-radius: var(--sz-radius-pill);
+    margin: 20px auto 0; position: relative;
+  }
+
+  /* SECTION */
+  .section { padding: 32px 24px; max-width: 520px; margin: 0 auto; }
+  .section h2 {
+    font-family: var(--sz-font-display); font-size: 20px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .section .desc { font-size: 13px; color: var(--sz-ink-600); margin-bottom: 20px; line-height: 1.5; }
+
+  /* DRAFT ORDER */
+  .draft-order { list-style: none; }
+  .draft-order li {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; margin-bottom: 8px;
+    background: var(--sz-surface); border-radius: var(--sz-radius-md);
+    box-shadow: var(--sz-shadow-card);
+  }
+  .draft-order .pick-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--sz-gold-100); color: var(--sz-gold-600);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sz-font-display); font-weight: 800; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .draft-order .info { flex: 1; }
+  .draft-order .owner { font-weight: 700; font-size: 14px; }
+  .draft-order .team { font-size: 12px; color: var(--sz-ink-600); }
+
+  /* INFO GRID */
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  }
+  .info-card {
+    background: var(--sz-surface); border-radius: var(--sz-radius-sm);
+    padding: 16px 12px; text-align: center; box-shadow: var(--sz-shadow-card);
+  }
+  .info-card .num {
+    font-family: var(--sz-font-display); font-size: 28px; font-weight: 800;
+    color: var(--sz-gold-600);
+  }
+  .info-card .lbl {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--sz-ink-400); margin-top: 4px;
+  }
+
+  /* CTA */
+  .cta-card {
+    background: var(--sz-ink-900); border-radius: var(--sz-radius-lg);
+    padding: 28px 24px; text-align: center; margin-top: 24px;
+  }
+  .cta-card p { color: var(--sz-ink-200); font-size: 13px; line-height: 1.6; }
+  .cta-card .big {
+    font-family: var(--sz-font-display); font-size: 22px; font-weight: 700;
+    color: var(--sz-gold-500); margin-top: 12px;
+  }
+
+  /* RULES */
+  .rule { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--sz-line-200); }
+  .rule:last-child { border-bottom: none; }
+  .rule .icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+  .rule .text { font-size: 13px; line-height: 1.5; }
+  .rule .text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 24px; color: var(--sz-ink-400); font-size: 11px; }
+
+  @media (min-width: 600px) {
+    .banner h1 { font-size: 56px; }
+    .banner .emoji { font-size: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="emoji">🏈</div>
+  <h1>Sleepy Joezzz</h1>
+  <div class="sub">Inaugural Draft</div>
+  <div class="gold-line"></div>
+  <p class="tagline">Six homiez. One champion. Zero mercy. The league begins now.</p>
+</div>
+
+<!-- INFO GRID -->
+<div class="section">
+  <div class="info-grid">
+    <div class="info-card"><div class="num">6</div><div class="lbl">Teams</div></div>
+    <div class="info-card"><div class="num">15</div><div class="lbl">Rounds</div></div>
+    <div class="info-card"><div class="num">90</div><div class="lbl">Picks</div></div>
+  </div>
+</div>
+
+<!-- DRAFT ORDER -->
+<div class="section">
+  <h2>Snake Draft Order</h2>
+  <p class="desc">Round 1 order is set. Round 2 reverses. Each round flips. Clock is running ⏰</p>
+  <ul class="draft-order">
+    <li><div class="pick-num">1</div><div class="info"><div class="owner">Adam</div><div class="team">Adambassadors</div></div></li>
+    <li><div class="pick-num">2</div><div class="info"><div class="owner">Brandon</div><div class="team">Brandos</div></div></li>
+    <li><div class="pick-num">3</div><div class="info"><div class="owner">David</div><div class="team">Dizzy Deez</div></div></li>
+    <li><div class="pick-num">4</div><div class="info"><div class="owner">Dillon</div><div class="team">Dillons Demons</div></div></li>
+    <li><div class="pick-num">5</div><div class="info"><div class="owner">Dylan</div><div class="team">Dylans Ducks</div></div></li>
+    <li><div class="pick-num">6</div><div class="info"><div class="owner">Gavin</div><div class="team">Gavins Goats</div></div></li>
+  </ul>
+
+  <p style="font-size:12px; color:var(--sz-ink-400); margin-top:16px; text-align:center;">
+    Round 2: Gavin → Dylan → Dillon → David → Brandon → Adam
+  </p>
+</div>
+
+<!-- RULES -->
+<div class="section">
+  <h2>Chaos Rules</h2>
+  <p class="desc">Default off — but they can be turned on at any time. Yes, really.</p>
+  <div style="background:var(--sz-surface); border-radius:var(--sz-radius-md); padding:4px 16px; box-shadow:var(--sz-shadow-card);">
+    <div class="rule"><div class="icon">🤡</div><div class="text"><strong>Clown Car</strong>If your bench outscored your starters by ≥20, the highest bench player gets forced into your lineup.</div></div>
+    <div class="rule"><div class="icon">🔮</div><div class="text"><strong>The Hex</strong>Last week's top scorer is cursed. Their opponent gets +3 points.</div></div>
+    <div class="rule"><div class="icon">🫳</div><div class="text"><strong>Steal-a-Player</strong>Lowest scorer steals a bench player from the highest scorer. For a week.</div></div>
+    <div class="rule"><div class="icon">🌮</div><div class="text"><strong>Taco Trophy</strong>Lowest scorer each week gets a 🌮 on their name. Earn enough and you never forget.</div></div>
+    <div class="rule"><div class="icon">🕊️</div><div class="text"><strong>3-Strike Rename</strong>Lose 3 in a row? You're now "The [Random] Pigeons" until you win.</div></div>
+    <div class="rule"><div class="icon">💪</div><div class="text"><strong>Morale Multiplier</strong>Winning streaks boost your score. Losing streaks crush it. Emotions matter.</div></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="section">
+  <div class="cta-card">
+    <p>Draft board is live at</p>
+    <div class="big">sleepiez.thoughtfire.studio</div>
+    <p style="margin-top: 12px; color: var(--sz-ink-400); font-size: 11px;">
+      Pick your homie, enter your email, and start drafting.<br>
+      When it's your turn, you'll know.
+    </p>
+  </div>
+</div>
+
+<div class="footer">
+  Built with 💀 for the Sleepy Joezzz league
+</div>
+
+</body>
+</html>
