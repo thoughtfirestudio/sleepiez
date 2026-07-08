@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     sleeper_league_id: str = ""
     sleeper_poll_interval_min: int = 5
 
+    # AWS SES for email
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
+    aws_region: str = "us-east-1"
+
     @property
     def allowed_email_list(self) -> list[str]:
         return [e.strip() for e in self.allowed_emails.split(",") if e.strip()]

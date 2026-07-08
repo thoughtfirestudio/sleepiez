@@ -65,11 +65,20 @@ def login(req: LoginRequest, response: Response, db: Session = Depends(get_db)):
 
     print(f"[auth] Login code for {req.email}: {code}")
 
-    # Always return the code in dev since SES isn't wired up yet
+    # Send via SES if configured, otherwise just log
+    from app.email import send_otp_code
+    ses_configured = bool(settings.aws_access_key_id and settings.aws_secret_access_key)
+    if ses_configured:
+        sent = send_otp_code(req.email, code)
+        if not sent:
+            print(f"[auth] WARNING: Failed to send email to {req.email}")
+    else:
+        print(f"[auth] SES not configured — code only visible in server logs")
+
     return {
         "ok": True,
         "message": f"Code sent to {req.email}",
-        "debug_code": code,
+        "debug_code": code if not ses_configured else None,
     }
 
 
