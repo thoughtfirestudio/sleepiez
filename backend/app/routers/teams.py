@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/teams", tags=["teams"])
 def list_teams(db: Session = Depends(get_db)):
     """Public — list all teams with owner names for the homie picker."""
     teams = db.query(Team).order_by(Team.name).all()
-    return [
+    result = [
         {
             "id": str(t.id),
             "name": t.name,
@@ -22,6 +22,8 @@ def list_teams(db: Session = Depends(get_db)):
         }
         for t in teams
     ]
+    result.sort(key=lambda t: (t["owner_name"] or t["name"]).lower())
+    return result
 
 
 @router.get("/mine")
