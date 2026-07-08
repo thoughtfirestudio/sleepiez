@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import get_settings
-from app.routers import auth, league, teams, matchups, players, waivers, chaos
+from app.routers import auth, league, teams, matchups, players, waivers, chaos, draft
 from app.services.scheduler import start_scheduler
 
 settings = get_settings()
@@ -43,6 +43,7 @@ app.include_router(matchups.router)
 app.include_router(players.router)
 app.include_router(waivers.router)
 app.include_router(chaos.router)
+app.include_router(draft.router)
 
 
 @app.get("/health")
