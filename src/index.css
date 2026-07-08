@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream-50 text-ink-900 font-body antialiased;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold-500 text-ink-900 font-bold text-sm rounded-pill px-6 py-3.5
+           flex items-center justify-center gap-2 border-none cursor-pointer
+           transition-transform active:scale-[0.97];
+  }
+  .btn-secondary {
+    @apply bg-ink-900 text-white font-bold text-sm rounded-pill px-6 py-3.5
+           flex items-center justify-center gap-2 border-none cursor-pointer
+           transition-transform active:scale-[0.97];
+  }
+  .card {
+    @apply bg-surface rounded-lg shadow-card;
+  }
+  .card-accent {
+    @apply bg-gold-100 rounded-lg;
+  }
+  .badge-live {
+    @apply bg-green-100 text-green-600 text-caption rounded-pill px-3 py-1.5;
+  }
+  .badge-bye {
+    @apply bg-gold-100 text-gold-600 text-caption rounded-pill px-3 py-1.5;
+  }
+  .badge-bench {
+    @apply bg-cream-100 text-ink-600 text-caption rounded-pill px-3 py-1.5;
+  }
+  .nav-pill {
+    @apply bg-ink-900 rounded-pill shadow-nav;
+  }
+  .pos-tab {
+    @apply h-9 px-4 rounded-pill bg-surface shadow-card flex items-center justify-center
+           text-ink-600 text-xs font-bold whitespace-nowrap cursor-pointer
+           transition-colors select-none;
+  }
+  .pos-tab.active {
+    @apply bg-gold-500 text-ink-900;
+  }
+  .tab-chip {
+    @apply px-4 py-2 rounded-pill text-sm font-bold whitespace-nowrap cursor-pointer
+           text-gold-600 transition-colors select-none;
+  }
+  .tab-chip.active {
+    @apply bg-surface text-ink-900 shadow-card;
+  }
+  .player-card {
+    @apply bg-gold-100 rounded-lg p-3.5 flex items-center gap-3;
+  }
+  .player-card.bench {
+    @apply bg-surface shadow-card;
+  }
+  .stat-cell {
+    @apply bg-surface rounded-sm p-3;
+  }
+  .stat-cell.compare {
+    @apply bg-ink-900 text-white;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #E1503F;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
