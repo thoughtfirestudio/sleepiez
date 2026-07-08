@@ -45,6 +45,11 @@ DATABASE_URL=postgresql://sleepiez:<password>@postgres-shared:5432/sleepiez
 
 ---
 
+## Domain
+
+`https://sleepiez.thoughtfire.studio` — CNAME via Cloudflare to `qgxo78rb19kkursrfzbau95m.178.104.35.18.sslip.io`.
+SSL cert auto-provisioned by Traefik. Cloudflare proxy enabled (orange cloud).
+
 ## Environment Variables
 
 | Variable | Required | Notes |
@@ -52,8 +57,9 @@ DATABASE_URL=postgresql://sleepiez:<password>@postgres-shared:5432/sleepiez
 | `DATABASE_URL` | Yes | Postgres connection string |
 | `ALLOWED_EMAILS` | Yes | Comma-separated emails that can log in |
 | `SESSION_SECRET` | Yes | Random 48-byte hex string |
-| `CORS_ORIGINS` | Yes | Comma-separated allowed origins |
+| `CORS_ORIGINS` | Yes | `https://sleepiez.thoughtfire.studio,http://localhost:5173` |
 | `DEBUG` | No | Set to `False` in production |
+| `SLEEPER_LEAGUE_ID` | No | Sleeper league ID for stat sync (set when ready) |
 
 ---
 

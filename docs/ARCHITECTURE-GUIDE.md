@@ -72,7 +72,8 @@ See [`DATA-PIPELINE-GUIDE.md`](DATA-PIPELINE-GUIDE.md).
 |-----------|------|---------|
 | Postgres | `studio` (178.104.35.18) | `postgres-shared` container, `coolify` network |
 | Backend | `studio` | Coolify app (Dockerfile) |
-| Frontend | `studio` | Served by FastAPI (production) or Vite dev server |
+| Frontend | Served by FastAPI `dist/` or Vite dev server |
+| Domain | `sleepiez.thoughtfire.studio` — Cloudflare CNAME → Traefik SSL |
 
 See [`DEPLOYMENT-GUIDE.md`](DEPLOYMENT-GUIDE.md).
 

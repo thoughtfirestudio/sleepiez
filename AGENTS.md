@@ -98,6 +98,7 @@ sleepiez/
 | Frontend framework | React/Vite | JSX for chaos conditional rendering, better PWA ecosystem |
 | Roster storage | JSONB arrays | Flexible for Clown Car swaps, temp loans, position matching |
 | Chaos engine | Postgres functions + Python service | Scoring runs in-DB for performance; orchestration in Python |
+| League management | Self-managed in Postgres | Sleeper provides only raw NFL stats/players. League rules, scoring, chaos, and lineup management are all ours. |
 | Data pipeline | Python APScheduler | Same language as API backend; no separate Node process |
 | Auth | Email OTP via SES | Multi-user support, external-domain compatible |
 | Documentation | OKF format | One concept per file, YAML frontmatter, agent-readable |
