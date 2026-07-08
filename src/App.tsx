@@ -12,6 +12,8 @@ import Matchups from "./pages/Matchups";
 import Waivers from "./pages/Waivers";
 import Profile from "./pages/Profile";
 import ChaosConfig from "./pages/ChaosConfig";
+import DraftBoard from "./pages/DraftBoard";
+import InstallPrompt from "./components/InstallPrompt";
 import { api } from "./api";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -73,6 +75,7 @@ function AppLayout() {
           <Route path="/matchups" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
           <Route path="/matchups/:id" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
           <Route path="/waivers" element={<ProtectedRoute><Waivers /></ProtectedRoute>} />
+          <Route path="/draft" element={<ProtectedRoute><DraftBoard /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/chaos-config" element={<ProtectedRoute><ChaosConfig /></ProtectedRoute>} />
         </Routes>
@@ -86,6 +89,7 @@ function AppLayout() {
         emoji={announcement?.emoji ?? "🤡"}
         onDismiss={dismissAnnouncement}
       />
+      <InstallPrompt />
     </div>
   );
 }
@@ -93,6 +97,7 @@ function AppLayout() {
 export default function App() {
   return (
     <AuthProvider>
+      <InstallPrompt />
       <Routes>
         {/* Public landing pages */}
         <Route path="/" element={<Welcome />} />
