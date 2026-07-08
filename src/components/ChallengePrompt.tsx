@@ -8,13 +8,12 @@ export default function ChallengePrompt() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Show if user just logged in this session and hasn't seen it before
-    const seen = sessionStorage.getItem(SEEN_KEY);
-    // Small delay so the page renders first
+    // Show once ever — uses localStorage so it persists across sessions
+    const seen = localStorage.getItem(SEEN_KEY);
     const timer = setTimeout(() => {
       if (!seen) {
         setOpen(true);
-        sessionStorage.setItem(SEEN_KEY, "true");
+        localStorage.setItem(SEEN_KEY, "true");
       }
     }, 800);
     return () => clearTimeout(timer);
