@@ -83,8 +83,6 @@ def get_current_challenge(
         "is_open": True,
         "submission": has_submitted,
     }
-        "is_open": True,
-    }
 
 
 @router.post("/{challenge_id}/submit")
