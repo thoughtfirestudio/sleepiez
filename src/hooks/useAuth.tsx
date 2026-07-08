@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
 import { api } from "../api";
+import { Events } from "./useTracking";
 
 interface User {
   id: string;
@@ -49,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const result = await api.post<{ ok: boolean; user: User }>("/api/auth/verify", { email, code });
       setUser(result.user);
+      Events.login();
       return true;
     } catch {
       return false;

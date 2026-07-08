@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { api } from "../api";
+import { Events } from "../hooks/useTracking";
 
 interface ChallengeInfo {
   id: string;
@@ -111,6 +112,7 @@ export default function DraftPrep() {
       setResult(res);
       setSubmitted(true);
       setCelebrating(true);
+      Events.challengeSubmit(current.week_number, res.score);
       try { navigator.vibrate?.(80); } catch {}
       setTimeout(() => setCelebrating(false), 3000);
       fetchAll();

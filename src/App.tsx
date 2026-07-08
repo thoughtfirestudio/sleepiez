@@ -15,6 +15,7 @@ import ChaosConfig from "./pages/ChaosConfig";
 import DraftBoard from "./pages/DraftBoard";
 import DraftPrep from "./pages/DraftPrep";
 import InstallPrompt from "./components/InstallPrompt";
+import { useTracking } from "./hooks/useTracking";
 import { api } from "./api";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,9 @@ function AppLayout() {
     message: string;
     emoji: string;
   } | null>(null);
+
+  // Auto-track page views
+  useTracking();
 
   const pollAnnouncements = useCallback(async () => {
     try {

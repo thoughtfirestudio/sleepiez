@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useApi } from "../hooks/useApi";
+import { Events } from "../hooks/useTracking";
 
 interface LeagueApiResponse {
   name: string;
@@ -15,6 +16,7 @@ export default function Profile() {
   const navigate = useNavigate();
 
   async function handleSignOut() {
+    Events.logout();
     await logout();
     navigate("/welcome");
   }

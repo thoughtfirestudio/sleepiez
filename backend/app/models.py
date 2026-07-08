@@ -219,3 +219,16 @@ class ChallengeSubmission(Base):
     answers = Column(JSONB, default=list)
     score = Column(Integer, default=0)
     submitted_at = Column(DateTime(timezone=True), default=utcnow)
+
+
+class UserEvent(Base):
+    """User engagement events — page views, actions, etc."""
+    __tablename__ = "user_events"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    event_type = Column(String(100), nullable=False)
+    event_data = Column(JSONB, default=dict)
+    page_url = Column(String(500), nullable=True)
+    session_id = Column(String(64), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utcnow)
