@@ -7,6 +7,16 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: "CacheFirst",
+            options: { cacheName: "google-fonts", expiration: { maxEntries: 4, maxAgeSeconds: 31536000 } },
+          },
+        ],
+      },
       manifest: {
         name: "Sleepiez Fantasy Football",
         short_name: "Sleepiez",

@@ -14,7 +14,7 @@ from app.config import get_settings
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 COOKIE_NAME = "sleepiez_token"
-SESSION_EXPIRY_DAYS = 30
+SESSION_EXPIRY_DAYS = 90
 
 
 def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
