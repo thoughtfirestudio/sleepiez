@@ -18,6 +18,7 @@ interface ChallengeInfo {
 
 interface ChallengeDetail extends ChallengeInfo {
   questions: { q: string; options: string[] }[];
+  submission: { score: number; total: number } | null;
 }
 
 interface StandingEntry {
@@ -119,6 +120,13 @@ export default function DraftPrep() {
     } catch (err) {
       alert(err instanceof Error ? err.message : "Failed to submit");
     }
+  }
+
+  // Check if already submitted — show results immediately
+  const alreadySubmitted = current?.submission;
+  if (alreadySubmitted && !result) {
+    setResult(alreadySubmitted);
+    setSubmitted(true);
   }
 
   const draftDate = new Date("2026-08-26T20:00:00Z");

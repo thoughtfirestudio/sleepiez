@@ -33,16 +33,28 @@ def list_challenges(db: Session = Depends(get_db)):
 
 
 @router.get("/current")
-def get_current_challenge(db: Session = Depends(get_db)):
-    """Get the currently active challenge with questions."""
+def get_current_challenge(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Get the currently active challenge with questions (no questions if already submitted)."""
+    from app.models import ChallengeSubmission
     now = datetime.now(timezone.utc)
     challenge = db.query(Challenge).filter(
         Challenge.opens_at <= now,
         Challenge.closes_at > now,
     ).order_by(Challenge.week_number).first()
 
+    has_submitted = None
+    if challenge:
+        sub = db.query(ChallengeSubmission).filter(
+            ChallengeSubmission.challenge_id == challenge.id,
+            ChallengeSubmission.user_id == user.id,
+        ).first()
+        if sub:
+            has_submitted = {"score": sub.score, "total": len(challenge.questions or [])}
+
     if not challenge:
-        # Return the next upcoming challenge
         challenge = db.query(Challenge).filter(
             Challenge.opens_at > now,
         ).order_by(Challenge.opens_at).first()
@@ -57,6 +69,7 @@ def get_current_challenge(db: Session = Depends(get_db)):
             "closes_at": challenge.closes_at.isoformat(),
             "questions": challenge.questions or [],
             "is_open": False,
+            "submission": has_submitted,
         }
 
     return {
@@ -67,6 +80,9 @@ def get_current_challenge(db: Session = Depends(get_db)):
         "opens_at": challenge.opens_at.isoformat(),
         "closes_at": challenge.closes_at.isoformat(),
         "questions": challenge.questions or [],
+        "is_open": True,
+        "submission": has_submitted,
+    }
         "is_open": True,
     }
 
