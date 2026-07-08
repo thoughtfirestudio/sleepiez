@@ -71,6 +71,7 @@ function AppLayout() {
         style={{ paddingTop: "max(16px, env(safe-area-inset-top))" }}
       >
         <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/standings" element={<ProtectedRoute><Standings /></ProtectedRoute>} />
           <Route path="/matchups" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
