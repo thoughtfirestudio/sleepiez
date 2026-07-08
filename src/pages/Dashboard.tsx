@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import { useApi } from "../hooks/useApi";
 
 interface TeamApiResponse {
@@ -10,6 +11,7 @@ interface TeamApiResponse {
 }
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { data: team } = useApi<TeamApiResponse>("/api/teams/mine", null);
 
@@ -20,7 +22,7 @@ export default function Dashboard() {
           <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-gold-300 to-gold-500 shrink-0" />
           <div>
             <div className="text-[12px] text-ink-600">Hey,</div>
-            <div className="text-[16px] font-bold font-display">Homiez</div>
+            <div className="text-[16px] font-bold font-display">{user?.display_name ?? "Homiez"}</div>
           </div>
         </div>
         <div className="w-[38px] h-[38px] rounded-full bg-surface flex items-center justify-center shadow-card cursor-pointer">
@@ -53,7 +55,7 @@ export default function Dashboard() {
       ) : (
         <div className="card p-8 mb-4 text-center">
           <div className="text-3xl mb-3">🏈</div>
-          <p className="text-ink-600 text-sm">No team yet. Sign in or join a league to get started.</p>
+          <p className="text-ink-600 text-sm">No team yet. League setup in progress.</p>
         </div>
       )}
 

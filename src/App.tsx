@@ -1,7 +1,11 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
+import { AuthProvider, useAuth } from "./hooks/useAuth";
 import BottomNav from "./components/BottomNav";
 import ShameModal from "./components/ShameModal";
+import Welcome from "./pages/Welcome";
+import PickHomie from "./pages/PickHomie";
+import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Standings from "./pages/Standings";
 import Matchups from "./pages/Matchups";
@@ -10,30 +14,38 @@ import Profile from "./pages/Profile";
 import ChaosConfig from "./pages/ChaosConfig";
 import { api } from "./api";
 
-interface Announcement {
-  id: string;
-  type: string;
-  title: string;
-  message: string;
-  emoji: string;
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) return <Navigate to="/" replace />;
+  return <>{children}</>;
 }
 
-export default function App() {
-  const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+function AppLayout() {
+  const [announcement, setAnnouncement] = useState<{
+    id: string;
+    title: string;
+    message: string;
+    emoji: string;
+  } | null>(null);
 
   const pollAnnouncements = useCallback(async () => {
     try {
-      const anns = await api.get<Announcement[]>("/api/chaos/announcements");
+      const anns = await api.get<{
+        id: string;
+        title: string;
+        message: string;
+        emoji: string;
+      }[]>("/api/chaos/announcements");
       if (anns && anns.length > 0) {
         setAnnouncement(anns[0]);
       }
     } catch {
-      // API unavailable — no shame today
+      // API unavailable
     }
   }, []);
 
   useEffect(() => {
-    // Poll every 60 seconds for chaos announcements
     pollAnnouncements();
     const interval = setInterval(pollAnnouncements, 60_000);
     return () => clearInterval(interval);
@@ -44,7 +56,7 @@ export default function App() {
     try {
       await api.post(`/api/chaos/announcements/${announcement.id}/acknowledge`);
     } catch {
-      // Best-effort acknowledge
+      // best-effort
     }
     setAnnouncement(null);
   }
@@ -52,22 +64,21 @@ export default function App() {
   return (
     <div className="max-w-lg mx-auto min-h-screen flex flex-col relative">
       <main
-        className="flex-1 overflow-y-auto px-5 pb-28"
+        className="flex-1 overflow-y-auto px-5"
         style={{ paddingTop: "max(16px, env(safe-area-inset-top))" }}
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/standings" element={<Standings />} />
-          <Route path="/matchups" element={<Matchups />} />
-          <Route path="/matchups/:id" element={<Matchups />} />
-          <Route path="/waivers" element={<Waivers />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/chaos-config" element={<ChaosConfig />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/standings" element={<ProtectedRoute><Standings /></ProtectedRoute>} />
+          <Route path="/matchups" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
+          <Route path="/matchups/:id" element={<ProtectedRoute><Matchups /></ProtectedRoute>} />
+          <Route path="/waivers" element={<ProtectedRoute><Waivers /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/chaos-config" element={<ProtectedRoute><ChaosConfig /></ProtectedRoute>} />
         </Routes>
       </main>
-      <BottomNav />
+      <ProtectedRoute><BottomNav /></ProtectedRoute>
 
-      {/* Chaos shame modal */}
       <ShameModal
         open={announcement !== null}
         title={announcement?.title ?? ""}
@@ -76,5 +87,21 @@ export default function App() {
         onDismiss={dismissAnnouncement}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <Routes>
+        {/* Public landing pages */}
+        <Route path="/" element={<Welcome />} />
+        <Route path="/pick-homie" element={<PickHomie />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected app */}
+        <Route path="/*" element={<AppLayout />} />
+      </Routes>
+    </AuthProvider>
   );
 }

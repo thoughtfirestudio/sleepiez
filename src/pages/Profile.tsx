@@ -1,11 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import { useApi } from "../hooks/useApi";
-
-interface UserApiResponse {
-  id: string;
-  email: string;
-  display_name: string | null;
-  is_admin: boolean;
-}
 
 interface LeagueApiResponse {
   name: string;
@@ -15,8 +10,14 @@ interface LeagueApiResponse {
 }
 
 export default function Profile() {
-  const { data: user } = useApi<UserApiResponse>("/api/auth/me", null);
+  const { user, logout } = useAuth();
   const { data: league } = useApi<LeagueApiResponse>("/api/league", null);
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await logout();
+    navigate("/");
+  }
 
   return (
     <>
@@ -27,7 +28,7 @@ export default function Profile() {
             <h2 className="font-display text-display-lg font-bold">
               {user?.display_name ?? "Homiez"}
             </h2>
-            <p className="text-body-sz text-ink-600">{user?.email ?? "Not signed in"}</p>
+            <p className="text-body-sz text-ink-600">{user?.email ?? ""}</p>
           </div>
         </div>
 
@@ -49,9 +50,12 @@ export default function Profile() {
             <span className="text-ink-400 text-sm">${league?.waiver_budget ?? "—"}</span>
           </div>
           <div className="p-4">
-            <span className="font-semibold text-sm text-red-500 cursor-pointer">
+            <button
+              onClick={handleSignOut}
+              className="font-semibold text-sm text-red-500 cursor-pointer bg-transparent border-none p-0"
+            >
               Sign out
-            </span>
+            </button>
           </div>
         </div>
       </div>

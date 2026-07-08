@@ -4,12 +4,16 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import League, Team
 from app.schemas import LeagueOut, LeagueStandings, TeamOut, ChaosConfigUpdate
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/api/league", tags=["league"])
 
 
 @router.get("")
-def get_league(db: Session = Depends(get_db)):
+def get_league(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     league = db.query(League).first()
     if not league:
         raise HTTPException(404, "No league found")
@@ -17,7 +21,10 @@ def get_league(db: Session = Depends(get_db)):
 
 
 @router.get("/standings")
-def get_standings(db: Session = Depends(get_db)):
+def get_standings(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     league = db.query(League).first()
     if not league:
         raise HTTPException(404, "No league found")
@@ -30,7 +37,10 @@ def get_standings(db: Session = Depends(get_db)):
 
 
 @router.get("/config")
-def get_chaos_config(db: Session = Depends(get_db)):
+def get_chaos_config(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     league = db.query(League).first()
     if not league:
         raise HTTPException(404, "No league found")
@@ -38,7 +48,11 @@ def get_chaos_config(db: Session = Depends(get_db)):
 
 
 @router.patch("/config")
-def update_chaos_config(update: ChaosConfigUpdate, db: Session = Depends(get_db)):
+def update_chaos_config(
+    update: ChaosConfigUpdate,
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     league = db.query(League).first()
     if not league:
         raise HTTPException(404, "No league found")
