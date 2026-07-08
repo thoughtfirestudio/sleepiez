@@ -25,7 +25,7 @@ def send_otp_code(to_email: str, code: str) -> bool:
             Destination={"ToAddresses": [to_email]},
             Message={
                 "Subject": {
-                    "Data": "Your Sleepy Joezzz login code",
+                    "Data": f"Your Sleepy Joezzz code: {code}",
                     "Charset": "UTF-8",
                 },
                 "Body": {
