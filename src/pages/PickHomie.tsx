@@ -7,6 +7,7 @@ interface TeamInfo {
   name: string;
   abbreviation: string;
   owner_name: string | null;
+  email: string | null;
 }
 
 export default function PickHomie() {
@@ -48,8 +49,7 @@ export default function PickHomie() {
             key={team.id}
             className="card p-4 flex items-center gap-4 text-left w-full cursor-pointer border-none"
             onClick={() => {
-              // Find the user's email from the team
-              navigate(`/login?team=${encodeURIComponent(team.name)}&owner=${encodeURIComponent(team.owner_name || "")}`);
+              navigate(`/login?team=${encodeURIComponent(team.name)}&owner=${encodeURIComponent(team.owner_name || "")}&email=${encodeURIComponent(team.email || "")}`);
             }}
           >
             <div className="w-[42px] h-[42px] rounded-full bg-cream-100 flex items-center justify-center text-sm font-bold font-display shrink-0">

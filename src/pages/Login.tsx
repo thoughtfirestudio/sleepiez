@@ -9,9 +9,10 @@ export default function Login() {
 
   const ownerName = searchParams.get("owner") || "Homie";
   const teamName = searchParams.get("team") || "";
+  const emailParam = searchParams.get("email") || "";
 
-  const [step, setStep] = useState<"email" | "code">("email");
-  const [email, setEmail] = useState("");
+  const [step, setStep] = useState<"email" | "code">(emailParam ? "code" : "email");
+  const [email, setEmail] = useState(emailParam);
   const [code, setCode] = useState(["", "", "", ""]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -23,6 +24,13 @@ export default function Login() {
       inputRefs[0].current?.focus();
     }
   }, [step]);
+
+  // Auto-send code if email was provided in URL
+  useEffect(() => {
+    if (emailParam && step === "code" && !message) {
+      handleSendCode();
+    }
+  }, []);
 
   async function handleSendCode() {
     if (!email.includes("@")) {
@@ -161,9 +169,9 @@ export default function Login() {
           </button>
           <button
             className="text-sm font-semibold text-ink-400 mt-4 cursor-pointer"
-            onClick={() => { setStep("email"); setCode(["", "", "", ""]); }}
+            onClick={() => navigate("/pick-homie")}
           >
-            Wrong email? Try again
+            Wrong person? Go back
           </button>
         </>
       )}

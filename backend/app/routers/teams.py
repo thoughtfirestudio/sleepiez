@@ -19,6 +19,7 @@ def list_teams(db: Session = Depends(get_db)):
             "name": t.name,
             "abbreviation": t.abbreviation,
             "owner_name": t.owner.display_name if t.owner else None,
+            "email": t.owner.email if t.owner else None,
         }
         for t in teams
     ]
